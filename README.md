@@ -29,13 +29,13 @@
 * Java Opt 으로 Profile 지정
   * -Dapp.env.profile.active = dev or prod
 
-### Java
+### Java 사용법
 ```java
 AppConfigMap configMap = AppConfig.get("paymentGateway");
 String domain = configMap.get("domain");
 String propertyPath = configMap.get("propertyPath")
 ```
-### JSP(Java Server Page)
+### JSP(Java Server Page) 사용법
 ```jsp
 <script src="<incubator:appConfig id="paymentGateway" key="domain"/>/main/payment.js"></script>
 ```
