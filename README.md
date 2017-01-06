@@ -25,7 +25,7 @@
   }
 }
 ```
-### Java Opt 
+### Java Opt 으로 Profile 지정
 -Dapp.env.profile.active = dev or prod
 ### Java
 ```java
