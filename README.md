@@ -15,7 +15,7 @@
 	"prod" : {
 		"paymentGateway" : {
 			"domain" : "http://pg.com",
-			"propertyPath" : "classpath:conf/dev-pg.properties"
+			"propertyPath" : "classpath:conf/pg.properties"
 		}
 	}
 }
