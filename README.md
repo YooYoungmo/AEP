@@ -6,20 +6,27 @@
 * app-config.json
 ```json
 {
-	"dev" : {
-		"paymentGateway" : {
-			"domain" : "http://dev-pg.com",
-			"propertyPath" : "classpath:conf/dev-pg.properties"
-		}
-	},
-	"prod" : {
-		"paymentGateway" : {
-			"domain" : "http://pg.com",
-			"propertyPath" : "classpath:conf/pg.properties"
-		}
-	}
+  "profile": {
+    "dev": {
+      "paymentGateway": {
+        "domain": "http://dev-pg.com",
+        "propertyPath": "classpath:conf/dev-pg.properties"
+      }
+    },
+    "prod": {
+      "paymentGateway": {
+        "domain": "http://pg.com",
+        "propertyPath": "classpath:conf/dev-pg.properties"
+      }
+    }
+  },
+  "googleMaps" : {
+  	"url" : "http://google.com/maps"
+  }
 }
 ```
+### Java Opt 
+-Dapp.env.profile.active = dev or prod
 ### Java
 ```java
 AppConfigMap configMap = AppConfig.get("paymentGateway");
