@@ -1,0 +1,19 @@
+{
+  "profile": {
+    "dev": {
+      "paymentGateway": {
+        "domain": "http://dev-pg.com",
+        "propertyPath": "classpath:conf/dev-pg.properties"
+      }
+    },
+    "prod": {
+      "paymentGateway": {
+        "domain": "http://pg.com",
+        "propertyPath": "classpath:conf/dev-pg.properties"
+      }
+    }
+  },
+  "googleMaps" : {
+    "url" : "http://google.com/maps"
+  }
+}
