@@ -39,6 +39,9 @@ String propertyPath = configMap.get("propertyPath")
 ```jsp
 <script src="<incubator:appConfig id="paymentGateway" key="domain"/>/main/payment.js"></script>
 ```
+## 구현 제약사항
+* JSON-lib 2.3 사용(http://json-lib.sourceforge.net/usage.html)
+
 ## 참고 자료
 ### Resource Loading
 ```java
