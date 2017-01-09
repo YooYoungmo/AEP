@@ -39,24 +39,3 @@ String propertyPath = configMap.get("propertyPath")
 ```jsp
 <script src="<incubator:appConfig id="paymentGateway" key="domain"/>/main/payment.js"></script>
 ```
-## 구현 제약사항
-* JSON-lib 2.3 사용(http://json-lib.sourceforge.net/usage.html)
-
-## 참고 자료
-### Resource Loading
-```java
-InputStream in = this.getClass().getClassLoader().getResourceAsStream("conf/app-config.json");
-```
-### JSONObject from InputStream
-```java
-BufferedReader bR = new BufferedReader(  new InputStreamReader(in));
-String line = "";
-
-StringBuilder responseStrBuilder = new StringBuilder();
-while((line =  bR.readLine()) != null){
-
-    responseStrBuilder.append(line);
-}
-in.close();
-JSONObject jsonObject = JSONObject.fromObject(responseStrBuilder.toString());
-```
