@@ -31,7 +31,7 @@
 
 ### Java 사용법
 ```java
-AppConfigMap configMap = AppConfig.get("paymentGateway");
+Map<String, String> configMap = AppConfig.get("paymentGateway");
 String domain = configMap.get("domain");
 String propertyPath = configMap.get("propertyPath")
 ```
