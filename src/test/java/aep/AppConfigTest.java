@@ -55,8 +55,4 @@ public class AppConfigTest {
 
         Assert.assertEquals("classpath:conf/dev-pg.properties", domain);
     }
-
-
-
-
 }
