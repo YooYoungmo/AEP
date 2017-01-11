@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by yooyoung-mo on 2017. 1. 10..
  */
@@ -19,7 +17,7 @@ public class JsonParserTest {
         JsonParser jsonParser = new JsonParser();
 
         // when
-        Map<String, Map<String, Map<String, Map<String, String>>>> actual = jsonParser.parse(json);
+        Map<String, Map<String, Map<String, Map<String, String>>>> actual = jsonParser.parseForProfile(json);
 
         // then
         Assert.assertNotNull(actual);
