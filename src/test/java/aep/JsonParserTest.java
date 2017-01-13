@@ -17,7 +17,7 @@ public class JsonParserTest {
         JsonParser jsonParser = new JsonParser();
 
         // when
-        Map<String, Map<String, Map<String, Map<String, String>>>> actual = jsonParser.parseForProfile(json);
+        Map<String, Map<String, Map<String, Map<String, String>>>> actual = jsonParser.parse(json);
 
         // then
         Assert.assertNotNull(actual);

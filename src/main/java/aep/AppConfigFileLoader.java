@@ -15,22 +15,28 @@ public class AppConfigFileLoader {
     }
 
     public String getText() throws IOException {
-        InputStream inputStream = AppConfig.class.getClassLoader().getResourceAsStream(filePath);
+        InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(filePath);
 
-        if(inputStream == null){
+        if(configStream == null){
             throw new FileNotFoundException("파일을 찾을 수 없습니다 - path : " + filePath);
         }
 
-        BufferedReader bR = new BufferedReader(new InputStreamReader(inputStream));
-        String line = "";
+        Closeable streamCloser = configStream;
 
-        StringBuilder responseStrBuilder = new StringBuilder();
-        while ((line = bR.readLine()) != null) {
+        StringBuilder configStringBuilder = new StringBuilder();
 
-            responseStrBuilder.append(line);
+        try {
+            BufferedReader configBufferReader = new BufferedReader(new InputStreamReader(configStream));
+            streamCloser = configBufferReader;
+
+            String line = "";
+            while ((line = configBufferReader.readLine()) != null) {
+                configStringBuilder.append(line);
+            }
+        } finally {
+            streamCloser.close();
         }
-        inputStream.close();
 
-        return responseStrBuilder.toString();
+        return configStringBuilder.toString();
     }
 }

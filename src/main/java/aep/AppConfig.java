@@ -19,21 +19,19 @@ public class AppConfig {
 
         Map<String, String> targetMap = null;
         JsonParser parser = new JsonParser();
+
         if(isActiveProfile()) {
             String appEnvProfileActive = getActiveProfile();
-            Map<String, Map<String, Map<String, Map<String, String>>>> configMap = parser.parseForProfile(configText);
+            Map<String, Map<String, Map<String, Map<String, String>>>> configMap = parser.parse(configText);
 
-            Map<String, Map<String, String>> envMap = configMap.get(CONFIG_PROFILE_ELEMENT).get(appEnvProfileActive);
+            Map<String, Map<String, String>> profileMap = configMap.get(CONFIG_PROFILE_ELEMENT).get(appEnvProfileActive);
 
-            if(envMap == null) {
+            if(profileMap == null) {
                 throw new ProfileNotFoundException();
             }
-
-            targetMap = envMap.get(id);
-
+            targetMap = profileMap.get(id);
         } else {
-            Map<String, Map<String, String>> configMap = parser.parseForNoneProfile(configText);
-            targetMap = configMap.get(id);
+            throw new SystemPropertyNotFoundException();
         }
 
         if(targetMap == null) {

@@ -65,6 +65,7 @@ public class AppConfigTest {
     @Test
     public void get_프로파일없는경우() throws IOException {
         // given
+        System.setProperty("app.env.profile.active", "dev");
         String id ="googleMaps";
 
         // when
@@ -80,6 +81,8 @@ public class AppConfigTest {
     @Test(expected=IllegalArgumentException.class)
     public void get_엘리먼트가_일치_하지_않는_경우() throws IOException {
         // given
+        System.setProperty("app.env.profile.active", "dev");
+
         String id = "naverOpenAPI";
 
         // when
@@ -101,4 +104,16 @@ public class AppConfigTest {
     public void get_프로파일_설정이_되어있지만_프로파일에해당하는_엘리먼트가_없는경우() throws IOException {
 
     }
+
+    @Test(expected=SystemPropertyNotFoundException.class)
+    public void get_systemProperty를_선언하지않은경우() throws IOException {
+        // given
+        String id = "paymentGateway";
+
+        // when
+        AppConfig.get(id);
+
+    }
+
+
 }
