@@ -14,36 +14,48 @@ public class AppConfig {
     private static final String SYSTEM_PROPERTY_APP_ENV_PROFILE_ACTIVE = "app.env.profile.active";
 
     public static Map<String, String> get(String id) throws IOException {
-        AppConfigFileLoader configFileLoader = new AppConfigFileLoader(CONFIG_ROOT_DEFAULT_FILE_PATH);
-        String configText = configFileLoader.getText();
 
-        Map<String, String> targetMap = null;
-        JsonParser parser = new JsonParser();
+        Map<String, String> configMap = null;
 
         if(isActiveProfile()) {
-            String appEnvProfileActive = getActiveProfile();
-            Map<String, Map<String, Map<String, Map<String, String>>>> configMap = parser.parse(configText);
-
-            Map<String, Map<String, String>> profileMap = configMap.get(CONFIG_PROFILE_ELEMENT).get(appEnvProfileActive);
-
-            if(profileMap == null) {
-                throw new ProfileNotFoundException();
-            }
-            targetMap = profileMap.get(id);
+            configMap = getConfigMap(id);
         } else {
             throw new SystemPropertyNotFoundException();
         }
 
-        if(targetMap == null) {
+        if(configMap == null) {
             throw new IllegalArgumentException(id + "가 존재하지 않습니다.");
         }
 
         Map<String, String> resultMap = new HashMap<String, String>();
-        Set<Map.Entry<String, String>> set = targetMap.entrySet();
+        Set<Map.Entry<String, String>> set = configMap.entrySet();
         for(Map.Entry<String, String> o : set) {
             resultMap.put(o.getKey(), o.getValue());
         }
         return resultMap;
+    }
+
+    private static Map<String, String> getConfigMap(String id) throws IOException {
+        AppConfigFileLoader configFileLoader = new AppConfigFileLoader(CONFIG_ROOT_DEFAULT_FILE_PATH);
+        String configText = configFileLoader.getText();
+
+        JsonParser parser = new JsonParser();
+
+        Map<String, String> targetMap;
+        Map<String, Map<String, Map<String, Map<String, String>>>> configMap = parser.parse(configText);
+        String appEnvProfileActive = getActiveProfile();
+        Map<String, Map<String, String>> profileMap = configMap.get(CONFIG_PROFILE_ELEMENT).get(appEnvProfileActive);
+
+        if(profileMap == null) {
+            throw new ProfileNotFoundException();
+        }
+        targetMap = profileMap.get(id);
+
+        if(targetMap == null) {
+            Map<String, Map<String, String>> configMapForOuter = parser.parse(configText);
+            targetMap = configMapForOuter.get(id);
+        }
+        return targetMap;
     }
 
     private static String getActiveProfile() {

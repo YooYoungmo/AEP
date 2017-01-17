@@ -37,4 +37,16 @@ public class AppConfigFileLoaderTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void getTextForAepConfig() throws IOException {
+        // given
+        AppConfigFileLoader appConfigFileLoader = new AppConfigFileLoader("conf/aep-config.json");
+
+        // when
+        String actual = appConfigFileLoader.getText();
+
+        // then
+        String expected = "{  \"KindOfProfileName\" : [\"local\", \"dev\", \"stag\", \"prod\"]}";
+        Assert.assertEquals(expected, actual);
+    }
 }
