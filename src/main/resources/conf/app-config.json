@@ -6,6 +6,12 @@
         "propertyPath": "classpath:conf/dev-pg.properties"
       }
     },
+    "stag": {
+      "paymentGateway": {
+        "domain": "http://stg-pg.com",
+        "propertyPath": "classpath:conf/stg-pg.properties"
+      }
+    },
     "prod": {
       "paymentGateway": {
         "domain": "http://pg.com",

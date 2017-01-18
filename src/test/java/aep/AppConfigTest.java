@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -115,5 +116,44 @@ public class AppConfigTest {
 
     }
 
+    @Test
+    public void get_systemProperty로_전달받은_값이올바를때() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "stag");
+        String id = "paymentGateway";
+
+        // when
+        Map<String, String> actual = AppConfig.get(id);
+
+        // then
+        Assert.assertNotNull(actual);
+
+        Map<String, String> expected = new HashMap<String, String>();
+        expected.put("domain", "http://stg-pg.com");
+        expected.put("propertyPath", "classpath:conf/stg-pg.properties");
+
+        Assert.assertEquals(expected.get("domain"), actual.get("domain"));
+        Assert.assertEquals(expected.get("propertyPath"), actual.get("propertyPath"));
+    }
+
+    @Test(expected = SystemPropertyInvalidValueException.class)
+    public void get_systemProperty로_전달받은_값이_aepConfig에_없는값이전달되었을때() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "invalid");
+        String id = "paymentGateway";
+
+        // when
+        Map<String, String> actual = AppConfig.get(id);
+
+        // then
+        Assert.assertNotNull(actual);
+
+        Map<String, String> expected = new HashMap<String, String>();
+        expected.put("domain", "http://stg-pg.com");
+        expected.put("propertyPath", "classpath:conf/stg-pg.properties");
+
+        Assert.assertEquals(expected.get("domain"), actual.get("domain"));
+        Assert.assertEquals(expected.get("propertyPath"), actual.get("propertyPath"));
+    }
 
 }

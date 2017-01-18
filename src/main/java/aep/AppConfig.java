@@ -2,6 +2,7 @@ package aep;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,12 +40,25 @@ public class AppConfig {
         AppConfigFileLoader configFileLoader = new AppConfigFileLoader(CONFIG_ROOT_DEFAULT_FILE_PATH);
         String configText = configFileLoader.getText();
 
+        AppConfigFileLoader aepConfigFileLoader = new AppConfigFileLoader("conf/app-config.json");
+        String aepConfigText = aepConfigFileLoader.getText();
+
         JsonParser parser = new JsonParser();
+
+        Map<String, List<String>> validProfileMap = parser.parse(aepConfigText);
+        List<String> listValidProfile = validProfileMap.get("KindOfProfileName");
 
         Map<String, String> targetMap;
         Map<String, Map<String, Map<String, Map<String, String>>>> configMap = parser.parse(configText);
         String appEnvProfileActive = getActiveProfile();
+
+        if(!listValidProfile.contains(appEnvProfileActive)){
+            throw new SystemPropertyInvalidValueException();
+        }
+
         Map<String, Map<String, String>> profileMap = configMap.get(CONFIG_PROFILE_ELEMENT).get(appEnvProfileActive);
+
+
 
         if(profileMap == null) {
             throw new ProfileNotFoundException();
