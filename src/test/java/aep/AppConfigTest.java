@@ -90,17 +90,6 @@ public class AppConfigTest {
         AppConfig.get(id);
     }
 
-    @Test(expected=ProfileNotFoundException.class)
-    public void get_프로파일_설정이_잘못되어있는경우() throws IOException {
-        // given
-        System.setProperty("app.env.profile.active", "staging");
-
-        String id = "paymentGateway";
-
-        // when
-        AppConfig.get(id);
-    }
-
     @Test
     public void get_프로파일_설정이_되어있지만_프로파일에해당하는_엘리먼트가_없는경우() throws IOException {
 
@@ -155,5 +144,39 @@ public class AppConfigTest {
         Assert.assertEquals(expected.get("domain"), actual.get("domain"));
         Assert.assertEquals(expected.get("propertyPath"), actual.get("propertyPath"));
     }
+
+    @Test
+    public void get_activeProfile이_지정되어있으며_키_값이_중복선언되어있는경우() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "prod");
+        String id = "googleMaps";
+
+        // when
+        Map<String, String> actual = AppConfig.get(id);
+
+        // then
+        String expected = "http://googletest.com/maps";
+
+        Assert.assertEquals(expected, actual.get("url"));
+
+    }
+
+    @Test
+    public void get_activeProfile이_지정되어있으나_키_값이_configProfile에_없는경우() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "prod");
+        String id = "googleMaps";
+
+        // when
+        Map<String, String> actual = AppConfig.get(id);
+
+        // then
+        String expected = "http://googletest.com/maps";
+
+        Assert.assertEquals(expected, actual.get("url"));
+
+    }
+
+
 
 }

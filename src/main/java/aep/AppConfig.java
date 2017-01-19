@@ -40,7 +40,7 @@ public class AppConfig {
         AppConfigFileLoader configFileLoader = new AppConfigFileLoader(CONFIG_ROOT_DEFAULT_FILE_PATH);
         String configText = configFileLoader.getText();
 
-        AppConfigFileLoader aepConfigFileLoader = new AppConfigFileLoader("conf/app-config.json");
+        AppConfigFileLoader aepConfigFileLoader = new AppConfigFileLoader("conf/aep-config.json");
         String aepConfigText = aepConfigFileLoader.getText();
 
         JsonParser parser = new JsonParser();

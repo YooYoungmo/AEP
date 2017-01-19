@@ -16,6 +16,9 @@
       "paymentGateway": {
         "domain": "http://pg.com",
         "propertyPath": "classpath:conf/dev-pg.properties"
+      },
+      "googleMaps" : {
+        "url" : "http://googletest.com/maps"
       }
     }
   },
