@@ -20,7 +20,7 @@ public class AppConfigFileLoaderTest {
         String actual = appConfigFileLoader.getText();
 
         // then
-        String expected = "{  \"profile\": {    \"dev\": {      \"paymentGateway\": {        \"domain\": \"http://dev-pg.com\",        \"propertyPath\": \"classpath:conf/dev-pg.properties\"      }    },    \"stag\": {      \"paymentGateway\": {        \"domain\": \"http://stg-pg.com\",        \"propertyPath\": \"classpath:conf/stg-pg.properties\"      }    },    \"prod\": {      \"paymentGateway\": {        \"domain\": \"http://pg.com\",        \"propertyPath\": \"classpath:conf/dev-pg.properties\"      }    }  },  \"googleMaps\" : {    \"url\" : \"http://google.com/maps\"  }}";
+        String expected = "{  \"profile\": {    \"dev\": {      \"paymentGateway\": {        \"domain\": \"http://dev-pg.com\",        \"propertyPath\": \"classpath:conf/dev-pg.properties\"      }    },    \"stag\": {      \"paymentGateway\": {        \"domain\": \"http://stg-pg.com\",        \"propertyPath\": \"classpath:conf/stg-pg.properties\"      }    },    \"prod\": {      \"paymentGateway\": {        \"domain\": \"http://pg.com\",        \"propertyPath\": \"classpath:conf/dev-pg.properties\"      },      \"googleMaps\" : {        \"url\" : \"http://googletest.com/maps\"      }    }  },  \"googleMaps\" : {    \"url\" : \"http://google.com/maps\"  },  \"openApi\" : {    \"url\" :\"http://daum.net\"  }}";
         Assert.assertEquals(expected, actual);
     }
 

@@ -165,13 +165,13 @@ public class AppConfigTest {
     public void get_activeProfile이_지정되어있으나_키_값이_configProfile에_없는경우() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "prod");
-        String id = "googleMaps";
+        String id = "openApi";
 
         // when
         Map<String, String> actual = AppConfig.get(id);
 
         // then
-        String expected = "http://googletest.com/maps";
+        String expected = "http://daum.net";
 
         Assert.assertEquals(expected, actual.get("url"));
 

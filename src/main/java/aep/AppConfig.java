@@ -49,16 +49,18 @@ public class AppConfig {
         List<String> listValidProfile = validProfileMap.get("KindOfProfileName");
 
         Map<String, String> targetMap;
-        Map<String, Map<String, Map<String, Map<String, String>>>> configMap = parser.parse(configText);
+
+        Map configMap = parser.parse(configText);
         String appEnvProfileActive = getActiveProfile();
 
         if(!listValidProfile.contains(appEnvProfileActive)){
             throw new SystemPropertyInvalidValueException();
         }
 
-        Map<String, Map<String, String>> profileMap = configMap.get(CONFIG_PROFILE_ELEMENT).get(appEnvProfileActive);
-
-
+        Map<String, Map<String, String>> profileMap =
+                ((Map<String, Map<String, Map<String, Map<String, String>>>>)configMap)
+                        .get(CONFIG_PROFILE_ELEMENT)
+                        .get(appEnvProfileActive);
 
         if(profileMap == null) {
             throw new ProfileNotFoundException();
@@ -66,8 +68,7 @@ public class AppConfig {
         targetMap = profileMap.get(id);
 
         if(targetMap == null) {
-            Map<String, Map<String, String>> configMapForOuter = parser.parse(configText);
-            targetMap = configMapForOuter.get(id);
+            targetMap = ((Map<String, Map<String, String>>)configMap).get(id);
         }
         return targetMap;
     }
