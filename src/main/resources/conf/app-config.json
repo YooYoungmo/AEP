@@ -1,6 +1,6 @@
 {
   "profile": {
-    "validekindOfStge" : ["dev", "stag", "prod"],
+    "validStage" : ["dev", "stag", "prod"],
     "stage" : {
       "dev": {
         "paymentGateway": {

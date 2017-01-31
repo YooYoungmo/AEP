@@ -37,35 +37,36 @@ public class AppConfig {
     }
 
     private static Map<String, String> getConfigMap(String id) throws IOException {
+        // 1. File Load
         AppConfigFileLoader configFileLoader = new AppConfigFileLoader(CONFIG_ROOT_DEFAULT_FILE_PATH);
         String configText = configFileLoader.getText();
 
-        AppConfigFileLoader aepConfigFileLoader = new AppConfigFileLoader("conf/aep-config.json");
-        String aepConfigText = aepConfigFileLoader.getText();
-
+        // 2. Json Parse
         JsonParser parser = new JsonParser();
-
-        Map<String, List<String>> validProfileMap = parser.parse(aepConfigText);
-        List<String> listValidProfile = validProfileMap.get("KindOfProfileName");
-
-        Map<String, String> targetMap;
-
         Map configMap = parser.parse(configText);
+
+        // 4. activeProfile validation
+        List<String> validStage = ((Map<String, Map<String, List<String>>>)configMap).get(CONFIG_PROFILE_ELEMENT)
+                .get("validStage");
+
         String appEnvProfileActive = getActiveProfile();
 
-        if(!listValidProfile.contains(appEnvProfileActive)){
+        if(!validStage.contains(appEnvProfileActive)){
             throw new SystemPropertyInvalidValueException();
         }
 
+        // 5. get()
         Map<String, Map<String, String>> profileMap =
-                ((Map<String, Map<String, Map<String, Map<String, String>>>>)configMap)
+                ((Map<String, Map<String, Map<String, Map<String, Map<String, String>>>>>)configMap)
                         .get(CONFIG_PROFILE_ELEMENT)
+                        .get("stage")
                         .get(appEnvProfileActive);
 
         if(profileMap == null) {
             throw new ProfileNotFoundException();
         }
-        targetMap = profileMap.get(id);
+
+        Map<String, String> targetMap = profileMap.get(id);
 
         if(targetMap == null) {
             targetMap = ((Map<String, Map<String, String>>)configMap).get(id);

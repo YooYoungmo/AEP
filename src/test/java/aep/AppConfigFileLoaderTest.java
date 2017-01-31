@@ -13,6 +13,7 @@ public class AppConfigFileLoaderTest {
 
     @Test
     public void getText() throws IOException {
+        // TODO 문자열을 비교 하지 말고 이를 객체화 시켜 값을 비교하는 것으로 리펙토링 -> Github 이슈로...
         // given
         AppConfigFileLoader appConfigFileLoader = new AppConfigFileLoader("conf/app-config.json");
 
@@ -20,7 +21,7 @@ public class AppConfigFileLoaderTest {
         String actual = appConfigFileLoader.getText();
 
         // then
-        String expected = "{  \"profile\": {    \"dev\": {      \"paymentGateway\": {        \"domain\": \"http://dev-pg.com\",        \"propertyPath\": \"classpath:conf/dev-pg.properties\"      }    },    \"stag\": {      \"paymentGateway\": {        \"domain\": \"http://stg-pg.com\",        \"propertyPath\": \"classpath:conf/stg-pg.properties\"      }    },    \"prod\": {      \"paymentGateway\": {        \"domain\": \"http://pg.com\",        \"propertyPath\": \"classpath:conf/dev-pg.properties\"      },      \"googleMaps\" : {        \"url\" : \"http://googletest.com/maps\"      }    }  },  \"googleMaps\" : {    \"url\" : \"http://google.com/maps\"  },  \"openApi\" : {    \"url\" :\"http://daum.net\"  }}";
+        String expected = "{  \"profile\": {    \"validStage\" : [\"dev\", \"stag\", \"prod\"],    \"stage\" : {      \"dev\": {        \"paymentGateway\": {          \"domain\": \"http://dev-pg.com\",          \"propertyPath\": \"classpath:conf/dev-pg.properties\"        }      },      \"stag\": {        \"paymentGateway\": {          \"domain\": \"http://stg-pg.com\",          \"propertyPath\": \"classpath:conf/stg-pg.properties\"        }      },      \"prod\": {        \"paymentGateway\": {          \"domain\": \"http://pg.com\",          \"propertyPath\": \"classpath:conf/dev-pg.properties\"        },        \"googleMaps\" : {          \"url\" : \"http://googletest.com/maps\"        }      }    }  },  \"googleMaps\" : {    \"url\" : \"http://google.com/maps\"  },  \"openApi\" : {    \"url\" :\"http://daum.net\"  }}";
         Assert.assertEquals(expected, actual);
     }
 
