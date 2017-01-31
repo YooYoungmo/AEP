@@ -10,7 +10,6 @@ import java.util.Set;
  * Created by 유영모 on 2017-01-09.
  */
 public class AppConfig {
-    private static final String CONFIG_ROOT_DEFAULT_FILE_PATH = "conf/app-config.json";
     private static final String CONFIG_PROFILE_ELEMENT = "profile";
     private static final String SYSTEM_PROPERTY_APP_ENV_PROFILE_ACTIVE = "app.env.profile.active";
 
@@ -38,7 +37,7 @@ public class AppConfig {
 
     private static Map<String, String> getConfigMap(String id) throws IOException {
         // 1. File Load
-        AppConfigFileLoader configFileLoader = new AppConfigFileLoader(CONFIG_ROOT_DEFAULT_FILE_PATH);
+        AppConfigFileLoader configFileLoader = AppConfigFileLoader.getInstance();
         String configText = configFileLoader.getText();
 
         // 2. Json Parse
