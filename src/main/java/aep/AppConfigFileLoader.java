@@ -1,7 +1,5 @@
 package aep;
 
-import net.sf.json.JSONObject;
-
 import java.io.*;
 
 /**
@@ -9,13 +7,17 @@ import java.io.*;
  */
 public class AppConfigFileLoader {
     private static final String CONFIG_ROOT_DEFAULT_FILE_PATH = "conf/app-config.json";
-    private static AppConfigFileLoader instance = null;
-    private static String configText = "";
+    private static volatile AppConfigFileLoader instance = null;
+    private final String configText;
 
     private AppConfigFileLoader() throws IOException {
-        InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_ROOT_DEFAULT_FILE_PATH);
+        configText = initConfigText();
+    }
 
-        if(configStream == null){
+    private String initConfigText() throws IOException {
+        String configText;InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_ROOT_DEFAULT_FILE_PATH);
+
+        if(configStream == null) {
             throw new FileNotFoundException("파일을 찾을 수 없습니다 - path : " + CONFIG_ROOT_DEFAULT_FILE_PATH);
         }
 
@@ -36,6 +38,7 @@ public class AppConfigFileLoader {
         }
 
         configText = configStringBuilder.toString();
+        return configText;
     }
 
     public String getText() throws IOException {
