@@ -9,9 +9,12 @@ import java.util.Set;
 /**
  * Created by 유영모 on 2017-01-09.
  */
-public class AppConfig {
+public final class AppConfig {
     private static final String CONFIG_PROFILE_ELEMENT = "profile";
     private static final String SYSTEM_PROPERTY_APP_ENV_PROFILE_ACTIVE = "app.env.profile.active";
+
+    private AppConfig() {
+    }
 
     public static Map<String, String> get(String id) throws IOException {
 
@@ -78,11 +81,13 @@ public class AppConfig {
     }
 
     private static boolean isActiveProfile() {
+        boolean result = false;
+
         String activeProfile = getActiveProfile();
-        if(activeProfile == null || activeProfile.length() == 0) {
-            return false;
-        } else {
-            return true;
+        if(activeProfile != null && activeProfile.length() > 0) {
+            result = true;
         }
+
+        return result;
     }
 }
