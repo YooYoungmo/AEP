@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+    <description>Example Custom Tag</description>
+    <tlib-version>2.1</tlib-version>
+    <short-name>example</short-name>
+    <uri>http://journaldev.com/jsp/tlds/mytags</uri>
+    <tag>
+        <name>HelloWorld</name>
+        <tag-class>com.javacodegeeks.examples.jspcustomtagexample.tag.HelloWorldTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>test</name>
+            <required>false</required>
+        </attribute>
+    </tag>
+</taglib>
+
+    <!--<taglib>-->
+        <!--<tlib-version>1.0</tlib-version>-->
+        <!--<jsp-version>2.0</jsp-version>-->
+        <!--<short-name>Example TLD</short-name>-->
+        <!--<tag>-->
+            <!--<name>HelloWorld</name>-->
+            <!--<tag-class>com.javacodegeeks.examples.jspcustomtagexample.tag.HelloWorldTag</tag-class>-->
+            <!--<body-content>empty</body-content>-->
+        <!--</tag>-->
+    <!--</taglib>-->
+<!--</taglib>-->
