@@ -1,10 +1,8 @@
 package aep;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by 유영모 on 2017-01-09.
@@ -16,64 +14,41 @@ public final class AppConfig {
     private AppConfig() {
     }
 
-    public static Map<String, String> get(String id) throws IOException {
-
-        Map<String, String> configMap = null;
-
-        if(isActiveProfile()) {
-            configMap = getConfigMap(id);
-        } else {
-            throw new SystemPropertyNotFoundException();
-        }
-
-        if(configMap == null) {
-            throw new IllegalArgumentException(id + "가 존재하지 않습니다.");
-        }
-
-        Map<String, String> resultMap = new HashMap<String, String>();
-        Set<Map.Entry<String, String>> set = configMap.entrySet();
-        for(Map.Entry<String, String> o : set) {
-            resultMap.put(o.getKey(), o.getValue());
-        }
-        return resultMap;
-    }
-
-    private static Map<String, String> getConfigMap(String id) throws IOException {
+    public static Map get(String id) throws IOException {
         // 1. File Load
         AppConfigFileLoader configFileLoader = AppConfigFileLoader.getInstance();
         String configText = configFileLoader.getText();
+        JsonAppConfigMap appConfigMap = new JsonAppConfigMap(configText);
 
-        // 2. Json Parse
-        JsonParser parser = new JsonParser();
-        Map configMap = parser.parse(configText);
+        if(isActiveProfile()) {
+            // 2. activeProfile validation
+            List<String> validStage = (List<String>)appConfigMap.get(CONFIG_PROFILE_ELEMENT)
+                    .getConfigMap().get("validStage");
 
-        // 4. activeProfile validation
-        List<String> validStage = ((Map<String, Map<String, List<String>>>)configMap).get(CONFIG_PROFILE_ELEMENT)
-                .get("validStage");
+            String appEnvProfileActive = getActiveProfile();
+            if(!validStage.contains(appEnvProfileActive)){
+                throw new SystemPropertyInvalidValueException();
+            }
 
-        String appEnvProfileActive = getActiveProfile();
+            // 3. get()
+            appConfigMap.initMap();
+            Map resultMap = appConfigMap.get(CONFIG_PROFILE_ELEMENT).get("stage")
+                    .get(appEnvProfileActive).get(id).getConfigMap();
 
-        if(!validStage.contains(appEnvProfileActive)){
-            throw new SystemPropertyInvalidValueException();
+            if(resultMap == null) {
+                appConfigMap.initMap();
+                resultMap = appConfigMap.get(id).getConfigMap();
+            }
+
+            if(resultMap == null) {
+                throw new IllegalArgumentException(id + "가 존재하지 않습니다.");
+            }
+
+            return resultMap;
+
+        } else {
+            throw new SystemPropertyNotFoundException();
         }
-
-        // 5. get()
-        Map<String, Map<String, String>> profileMap =
-                ((Map<String, Map<String, Map<String, Map<String, Map<String, String>>>>>)configMap)
-                        .get(CONFIG_PROFILE_ELEMENT)
-                        .get("stage")
-                        .get(appEnvProfileActive);
-
-        if(profileMap == null) {
-            throw new ProfileNotFoundException();
-        }
-
-        Map<String, String> targetMap = profileMap.get(id);
-
-        if(targetMap == null) {
-            targetMap = ((Map<String, Map<String, String>>)configMap).get(id);
-        }
-        return targetMap;
     }
 
     private static String getActiveProfile() {
