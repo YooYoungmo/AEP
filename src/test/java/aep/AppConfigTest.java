@@ -19,27 +19,30 @@ public class AppConfigTest {
     }
 
     @Test
-    public void get_개발프로파일() throws IOException {
+    public void getConfigValue_activeProfile이_dev인경우() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "dev");
 
         // when
-        Map<String, String> configMap = AppConfig.get("paymentGateway");
+        Map<String, String> configMap = AppConfig.getConfigValue("paymentGateway");
 
         // then
         Assert.assertNotNull(configMap);
         String domain = configMap.get("domain");
-
         Assert.assertEquals("http://dev-pg.com", domain);
+
+        String propertyPath = configMap.get("propertyPath");
+        Assert.assertEquals("classpath:conf/dev-pg.properties", propertyPath);
+
     }
 
     @Test
-    public void get_운영프로파일() throws IOException {
+    public void getConfigValue_activeProfile이_prod인경우() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "prod");
 
         // when
-        Map<String, String> configMap = AppConfig.get("paymentGateway");
+        Map<String, String> configMap = AppConfig.getConfigValue("paymentGateway");
 
         // then
         Assert.assertNotNull(configMap);
@@ -49,28 +52,13 @@ public class AppConfigTest {
     }
 
     @Test
-    public void get_개발프로파일_propertyPath() throws IOException {
-        // given
-        System.setProperty("app.env.profile.active", "dev");
-
-        // when
-        Map<String, String> configMap = AppConfig.get("paymentGateway");
-
-        // then
-        Assert.assertNotNull(configMap);
-        String domain = configMap.get("propertyPath");
-
-        Assert.assertEquals("classpath:conf/dev-pg.properties", domain);
-    }
-
-    @Test
     public void get_프로파일없는경우() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "dev");
         String id ="googleMaps";
 
         // when
-        Map<String, String> configMap = AppConfig.get(id);
+        Map<String, String> configMap = AppConfig.getConfigValue(id);
 
         // then
         Assert.assertNotNull(configMap);
@@ -87,7 +75,7 @@ public class AppConfigTest {
         String id = "naverOpenAPI";
 
         // when
-        AppConfig.get(id);
+        AppConfig.getConfigValue(id);
     }
 
     @Test
@@ -101,7 +89,7 @@ public class AppConfigTest {
         String id = "paymentGateway";
 
         // when
-        AppConfig.get(id);
+        AppConfig.getConfigValue(id);
 
     }
 
@@ -112,7 +100,7 @@ public class AppConfigTest {
         String id = "paymentGateway";
 
         // when
-        Map<String, String> actual = AppConfig.get(id);
+        Map<String, String> actual = AppConfig.getConfigValue(id);
 
         // then
         Assert.assertNotNull(actual);
@@ -132,7 +120,7 @@ public class AppConfigTest {
         String id = "paymentGateway";
 
         // when
-        Map<String, String> actual = AppConfig.get(id);
+        Map<String, String> actual = AppConfig.getConfigValue(id);
 
         // then
         Assert.assertNotNull(actual);
@@ -152,7 +140,7 @@ public class AppConfigTest {
         String id = "googleMaps";
 
         // when
-        Map<String, String> actual = AppConfig.get(id);
+        Map<String, String> actual = AppConfig.getConfigValue(id);
 
         // then
         String expected = "http://googletest.com/maps";
@@ -169,12 +157,12 @@ public class AppConfigTest {
 //        String id = "openApi";
 //
 //        // when
-//        Map<String, String> actual = AppConfig.get(id);
+//        Map<String, String> actual = AppConfig.getConfigValue(id);
 //
 //        // then
 //        String expected = "http://daum.net";
 //
-//        Assert.assertEquals(expected, actual.get("url"));
+//        Assert.assertEquals(expected, actual.getConfigValue("url"));
 
     }
 

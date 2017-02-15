@@ -1,7 +1,6 @@
 package aep.tag;
 
 import aep.AppConfig;
-import org.junit.Assert;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -31,7 +30,7 @@ public class AppConfigTag extends SimpleTagSupport {
 
     @Override
     public void doTag() throws JspException, IOException {
-        Map<String, String> configMap = AppConfig.get(this.id);
+        Map<String, String> configMap = AppConfig.getConfigValue(this.id);
 
         String value = configMap.get(this.key);
 

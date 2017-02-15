@@ -14,7 +14,7 @@ public final class AppConfig {
     private AppConfig() {
     }
 
-    public static Map get(String id) throws IOException {
+    public static Map getConfigValue(String key) throws IOException {
         // 1. File Load
         AppConfigFileLoader configFileLoader = AppConfigFileLoader.getInstance();
         String configText = configFileLoader.getText();
@@ -30,18 +30,18 @@ public final class AppConfig {
                 throw new SystemPropertyInvalidValueException();
             }
 
-            // 3. get()
+            // 3. getConfigValue()
             appConfigMap.initMap();
             Map resultMap = appConfigMap.get(CONFIG_PROFILE_ELEMENT).get("stage")
-                    .get(appEnvProfileActive).get(id).getConfigMap();
+                    .get(appEnvProfileActive).get(key).getConfigMap();
 
             if(resultMap == null) {
                 appConfigMap.initMap();
-                resultMap = appConfigMap.get(id).getConfigMap();
+                resultMap = appConfigMap.get(key).getConfigMap();
             }
 
             if(resultMap == null) {
-                throw new IllegalArgumentException(id + "가 존재하지 않습니다.");
+                throw new IllegalArgumentException(key + "가 존재하지 않습니다.");
             }
 
             return resultMap;
