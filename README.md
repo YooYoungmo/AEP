@@ -31,9 +31,9 @@
 
 ### Java 사용법
 ```java
-Map<String, String> configMap = AppConfig.get("paymentGateway");
-String domain = configMap.get("domain");
-String propertyPath = configMap.get("propertyPath")
+Map<String, String> configValue = AppConfig.getConfigValue("paymentGateway");
+String domain = configValue.get("domain");
+String propertyPath = configValue.get("propertyPath")
 ```
 ### JSP(Java Server Page) 사용법
 ```jsp
