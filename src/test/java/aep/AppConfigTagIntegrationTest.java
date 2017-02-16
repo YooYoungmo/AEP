@@ -1,4 +1,4 @@
-package functional;
+package aep;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by yooyoung-mo on 2017. 2. 9..
  */
-public class AppConfigTagFunctionalTest {
+public class AppConfigTagIntegrationTest {
 
     @Test
     public void doTag_active_profile이_없는_경우() throws IOException {

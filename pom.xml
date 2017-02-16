@@ -44,6 +44,25 @@
                         <app.env.profile.active>dev</app.env.profile.active>
                     </systemProperties>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>start-tomcat</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <fork>true</fork>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-tomcat</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>shutdown</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -51,10 +70,30 @@
                 <version>2.19.1</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/*FunctionalTest.java</exclude>
+                        <exclude>**/*IntegrationTest*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <includes>
+                        <include>**/*IntegrationTest*</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>

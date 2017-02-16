@@ -15,13 +15,11 @@ public final class AppConfig {
     }
 
     public static Map getConfigValue(String key) throws IOException {
-        // 1. File Load
         AppConfigFileLoader configFileLoader = AppConfigFileLoader.getInstance();
         String configText = configFileLoader.getText();
         JsonAppConfigMap appConfigMap = new JsonAppConfigMap(configText);
 
         if(isActiveProfile()) {
-            // 2. activeProfile validation
             List<String> validStage = (List<String>)appConfigMap.get(CONFIG_PROFILE_ELEMENT)
                     .getConfigMap().get("validStage");
 
@@ -30,7 +28,6 @@ public final class AppConfig {
                 throw new SystemPropertyInvalidValueException();
             }
 
-            // 3. getConfigValue()
             appConfigMap.initMap();
             Map resultMap = appConfigMap.get(CONFIG_PROFILE_ELEMENT).get("stage")
                     .get(appEnvProfileActive).get(key).getConfigMap();
