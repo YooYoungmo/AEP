@@ -52,7 +52,7 @@ public class AppConfigTest {
     }
 
     @Test
-    public void get_프로파일없는경우() throws IOException {
+    public void getConfigValue_defaultConfigValue() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "dev");
         String id ="googleMaps";
@@ -68,7 +68,7 @@ public class AppConfigTest {
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void get_엘리먼트가_일치_하지_않는_경우() throws IOException {
+    public void getConfigValue_invalidKey() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "dev");
 
@@ -78,23 +78,17 @@ public class AppConfigTest {
         AppConfig.getConfigValue(id);
     }
 
-    @Test
-    public void get_프로파일_설정이_되어있지만_프로파일에해당하는_엘리먼트가_없는경우() throws IOException {
-
-    }
-
     @Test(expected=SystemPropertyNotFoundException.class)
-    public void get_systemProperty를_선언하지않은경우() throws IOException {
+    public void getConfigValue_activeProfile_systemProperty로_전달되지않은경우() throws IOException {
         // given
         String id = "paymentGateway";
 
         // when
         AppConfig.getConfigValue(id);
-
     }
 
     @Test
-    public void get_systemProperty로_전달받은_값이올바를때() throws IOException {
+    public void getConfigValue_activeProfile이_유효한경우() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "stag");
         String id = "paymentGateway";
@@ -114,7 +108,7 @@ public class AppConfigTest {
     }
 
     @Test(expected = SystemPropertyInvalidValueException.class)
-    public void get_systemProperty로_전달받은_값이_aepConfig에_없는값이전달되었을때() throws IOException {
+    public void getConfigValue_activeProfile이_유효하지_않은_경우() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "invalid");
         String id = "paymentGateway";
@@ -134,7 +128,7 @@ public class AppConfigTest {
     }
 
     @Test
-    public void get_activeProfile이_지정되어있으며_키_값이_중복선언되어있는경우() throws IOException {
+    public void getConfigValue_Key가_defaultConfigValue와_configProfile이_충돌나는_경우() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "prod");
         String id = "googleMaps";
@@ -146,26 +140,6 @@ public class AppConfigTest {
         String expected = "http://googletest.com/maps";
 
         Assert.assertEquals(expected, actual.get("url"));
-
     }
-
-    @Test
-    public void get_activeProfile이_지정되어있으나_키_값이_configProfile에_없는경우() throws IOException {
-        //TODO 케이스 생각해 보기
-//        // given
-//        System.setProperty("app.env.profile.active", "prod");
-//        String id = "openApi";
-//
-//        // when
-//        Map<String, String> actual = AppConfig.getConfigValue(id);
-//
-//        // then
-//        String expected = "http://daum.net";
-//
-//        Assert.assertEquals(expected, actual.getConfigValue("url"));
-
-    }
-
-
 
 }

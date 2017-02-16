@@ -1,4 +1,12 @@
 {
+  "default" : {
+    "googleMaps" : {
+      "url" : "http://google.com/maps"
+    },
+    "openApi" : {
+      "url" :"http://daum.net"
+    }
+  },
   "profile": {
     "validStage" : ["dev", "stag", "prod"],
     "stage" : {
@@ -24,12 +32,5 @@
         }
       }
     }
-  },
-  "googleMaps" : {
-    "url" : "http://google.com/maps"
-  },
-  "openApi" : {
-    "url" :"http://daum.net"
   }
-
 }

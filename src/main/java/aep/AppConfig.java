@@ -37,7 +37,7 @@ public final class AppConfig {
 
             if(resultMap == null) {
                 appConfigMap.initMap();
-                resultMap = appConfigMap.get(key).getConfigMap();
+                resultMap = appConfigMap.get("default").get(key).getConfigMap();
             }
 
             if(resultMap == null) {
