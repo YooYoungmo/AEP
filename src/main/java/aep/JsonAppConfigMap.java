@@ -1,6 +1,8 @@
 package aep;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by yooyoung-mo on 2017. 2. 10..
@@ -28,10 +30,20 @@ public class JsonAppConfigMap {
     }
 
     public Map getConfigMap() {
-        return configMap;
+        if(configMap != null) {
+            Map<String, String> resultMap = new HashMap<String, String>();
+            Set<Map.Entry<String, String>> set = configMap.entrySet();
+            for(Map.Entry<String, String> o : set) {
+                resultMap.put(o.getKey(), o.getValue());
+            }
+            initMap();
+            return resultMap;
+        } else {
+            return null;
+        }
     }
 
-    public void initMap() {
+    private void initMap() {
         this.configMap = parseJson(json);
     }
 }

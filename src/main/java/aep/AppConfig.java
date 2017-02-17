@@ -17,7 +17,6 @@ public final class AppConfig {
     }
     public static Map getConfigValue(String key) throws IOException {
         loadResource();
-        appConfigMap.initMap();
         if(isActiveProfile()) {
             final String activeProfile = getActiveProfile();
 
@@ -49,13 +48,10 @@ public final class AppConfig {
     }
 
     private static Map getConfigValueInDefault(String key) {
-        appConfigMap.initMap();
-
         return appConfigMap.get("default").get(key).getConfigMap();
     }
 
     private static Map getConfigValueInActiveProfile(String activeProfile, String key) {
-        appConfigMap.initMap();
         Map resultMap = appConfigMap.get(CONFIG_PROFILE_ELEMENT).get("stage")
                 .get(activeProfile).get(key).getConfigMap();
 
@@ -63,8 +59,10 @@ public final class AppConfig {
     }
 
     private static void validateActiveProfile(final String activeProfile) {
-        List<String> validStage = (List<String>)appConfigMap.get(CONFIG_PROFILE_ELEMENT)
-                .getConfigMap().get("validStage");
+        Map map = appConfigMap.get(CONFIG_PROFILE_ELEMENT)
+                .getConfigMap();
+
+        List<String> validStage = (List<String>)map.get("validStage");
 
         String appEnvProfileActive = getActiveProfile();
         if(!validStage.contains(appEnvProfileActive)){

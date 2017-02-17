@@ -48,7 +48,6 @@ public class JsonAppConfigMapTest {
         JsonAppConfigMap appConfigMap = new JsonAppConfigMap(json);
         Map paymentGateway = appConfigMap.get("profile").getConfigMap();
 
-        appConfigMap.initMap();
         paymentGateway = appConfigMap.get("profile").get("stage").get("dev").get("paymentGateway").getConfigMap();
 
         // then
