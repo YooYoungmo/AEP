@@ -10,31 +10,23 @@ import java.util.Map;
 public final class AppConfig {
     private static final String CONFIG_PROFILE_ELEMENT = "profile";
     private static final String SYSTEM_PROPERTY_APP_ENV_PROFILE_ACTIVE = "app.env.profile.active";
+    private static JsonAppConfigMap appConfigMap = null;
 
     private AppConfig() {
+
     }
-
     public static Map getConfigValue(String key) throws IOException {
-        AppConfigFileLoader configFileLoader = AppConfigFileLoader.getInstance();
-        String configText = configFileLoader.getText();
-        JsonAppConfigMap appConfigMap = new JsonAppConfigMap(configText);
-
+        loadResource();
+        appConfigMap.initMap();
         if(isActiveProfile()) {
-            List<String> validStage = (List<String>)appConfigMap.get(CONFIG_PROFILE_ELEMENT)
-                    .getConfigMap().get("validStage");
+            final String activeProfile = getActiveProfile();
 
-            String appEnvProfileActive = getActiveProfile();
-            if(!validStage.contains(appEnvProfileActive)){
-                throw new SystemPropertyInvalidValueException();
-            }
+            validateActiveProfile(activeProfile);
 
-            appConfigMap.initMap();
-            Map resultMap = appConfigMap.get(CONFIG_PROFILE_ELEMENT).get("stage")
-                    .get(appEnvProfileActive).get(key).getConfigMap();
+            Map resultMap = getConfigValueInActiveProfile(activeProfile, key);
 
             if(resultMap == null) {
-                appConfigMap.initMap();
-                resultMap = appConfigMap.get("default").get(key).getConfigMap();
+                resultMap = getConfigValueInDefault(key);
             }
 
             if(resultMap == null) {
@@ -46,6 +38,40 @@ public final class AppConfig {
         } else {
             throw new SystemPropertyNotFoundException();
         }
+    }
+
+    private synchronized static void loadResource() throws IOException {
+        if(appConfigMap == null) {
+            AppConfigFileLoader configFileLoader = AppConfigFileLoader.getInstance();
+            String configText = configFileLoader.getText();
+            appConfigMap = new JsonAppConfigMap(configText);
+        }
+    }
+
+    private static Map getConfigValueInDefault(String key) {
+        appConfigMap.initMap();
+
+        return appConfigMap.get("default").get(key).getConfigMap();
+    }
+
+    private static Map getConfigValueInActiveProfile(String activeProfile, String key) {
+        appConfigMap.initMap();
+        Map resultMap = appConfigMap.get(CONFIG_PROFILE_ELEMENT).get("stage")
+                .get(activeProfile).get(key).getConfigMap();
+
+        return resultMap;
+    }
+
+    private static void validateActiveProfile(final String activeProfile) {
+        List<String> validStage = (List<String>)appConfigMap.get(CONFIG_PROFILE_ELEMENT)
+                .getConfigMap().get("validStage");
+
+        String appEnvProfileActive = getActiveProfile();
+        if(!validStage.contains(appEnvProfileActive)){
+            throw new SystemPropertyInvalidValueException();
+        }
+
+
     }
 
     private static String getActiveProfile() {
