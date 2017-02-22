@@ -1,6 +1,11 @@
 # AEP(Application Environment Profile)
 애플리케이션 개발 스테이지(Stage-계발계, 테스트계, 운영계 등)별로 달라 지는 환경 설정 정보를 관리 한다.
 
+## 작성 원칙
+- Master branch는 Pair Programming 결과만 반영 한다.
+- 테스트 코드 먼저 작성 한다.
+- JUinit 테스트 케이스를 통과하지 못하는 코드는 Master branch에 반영하지 않는다.
+
 ## 사용법
 ### 전제 조건
 * config 파일 설정
