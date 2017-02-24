@@ -3,6 +3,7 @@ package aep;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -10,18 +11,21 @@ import java.util.Map;
  */
 public class AppConfigTest {
     @Test
-    public void getConfigValue()
-    {
+    public void getConfigValue() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "dev");
 
         // when
         Map<String, String> configValue = AppConfig.getConfigValue("paymentGateway");
-        String propertyPath = configValue.get("propertyPath");
+        String actualPropertyPath = configValue.get("propertyPath");
+        String actualDomain = configValue.get("domain");
 
         // then
-        String expected = "classpath:conf/dev-pg.properties";
-        Assert.assertEquals(expected, propertyPath);
+        String expectedPropertyPath = "classpath:conf/dev-pg.properties";
+        Assert.assertEquals(expectedPropertyPath, actualPropertyPath);
+        String expectedDomain = "http://dev-pg.com";
+        Assert.assertEquals(expectedDomain, actualDomain);
+
 
     }
 }
