@@ -13,6 +13,8 @@ public class AppConfigTest {
     public void getConfigValue()
     {
         // given
+        System.setProperty("app.env.profile.active", "dev");
+
         // when
         Map<String, String> configValue = AppConfig.getConfigValue("paymentGateway");
         String propertyPath = configValue.get("propertyPath");
