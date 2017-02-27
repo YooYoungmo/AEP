@@ -3,10 +3,7 @@ package aep;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -16,15 +13,21 @@ public class AppConfig {
     public static Map<String, String> getConfigValue(String key) throws IOException {
 
         InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream("conf/app-config.json");
-
-        BufferedReader configBufferReader = new BufferedReader(new InputStreamReader(configStream));
-        String line = "";
-
+        Closeable streamCloser = configStream;
         StringBuilder configStringBuilder = new StringBuilder();
-        while ((line = configBufferReader.readLine()) != null) {
-            configStringBuilder.append(line);
+
+        try {
+            BufferedReader configBufferReader = new BufferedReader(new InputStreamReader(configStream));
+            streamCloser = configBufferReader;
+
+            String line = "";
+
+            while ((line = configBufferReader.readLine()) != null) {
+                configStringBuilder.append(line);
+            }
+        } finally {
+            streamCloser.close();
         }
-        configStream.close();
 
         String activeProfile = System.getProperty("app.env.profile.active");
         JSONObject configJSONObject = JSONObject.fromObject(configStringBuilder.toString());
