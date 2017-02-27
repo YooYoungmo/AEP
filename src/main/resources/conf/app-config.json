@@ -24,11 +24,11 @@
       },
       "prod": {
         "paymentGateway": {
-          "domain": "http://pg.com",
-          "propertyPath": "classpath:conf/dev-pg.properties"
+          "domain": "http://prod-pg.com",
+          "propertyPath": "classpath:conf/prod-pg.properties"
         },
         "googleMaps" : {
-          "url" : "http://googletest.com/maps"
+          "url": "http://prod-google.com/maps"
         }
       }
     }

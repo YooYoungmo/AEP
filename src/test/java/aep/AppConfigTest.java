@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class AppConfigTest {
     @Test
-    public void getConfigValue() throws IOException {
+    public void getConfigValue_dev_activeProfile() throws IOException {
         // given
         System.setProperty("app.env.profile.active", "dev");
 
@@ -24,6 +24,40 @@ public class AppConfigTest {
         String expectedPropertyPath = "classpath:conf/dev-pg.properties";
         Assert.assertEquals(expectedPropertyPath, actualPropertyPath);
         String expectedDomain = "http://dev-pg.com";
+        Assert.assertEquals(expectedDomain, actualDomain);
+    }
+
+    @Test
+    public void getConfigValue_stg_activeProfile() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "stag");
+
+        // when
+        Map<String, String> configValue = AppConfig.getConfigValue("paymentGateway");
+        String actualPropertyPath = configValue.get("propertyPath");
+        String actualDomain = configValue.get("domain");
+
+        // then
+        String expectedPropertyPath = "classpath:conf/stg-pg.properties";
+        Assert.assertEquals(expectedPropertyPath, actualPropertyPath);
+        String expectedDomain = "http://stg-pg.com";
+        Assert.assertEquals(expectedDomain, actualDomain);
+    }
+
+    @Test
+    public void getConfigValue_prod_activeProfile() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "prod");
+
+        // when
+        Map<String, String> configValue = AppConfig.getConfigValue("paymentGateway");
+        String actualPropertyPath = configValue.get("propertyPath");
+        String actualDomain = configValue.get("domain");
+
+        // then
+        String expectedPropertyPath = "classpath:conf/prod-pg.properties";
+        Assert.assertEquals(expectedPropertyPath, actualPropertyPath);
+        String expectedDomain = "http://prod-pg.com";
         Assert.assertEquals(expectedDomain, actualDomain);
     }
 
