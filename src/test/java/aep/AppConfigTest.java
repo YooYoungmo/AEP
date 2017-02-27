@@ -25,7 +25,18 @@ public class AppConfigTest {
         Assert.assertEquals(expectedPropertyPath, actualPropertyPath);
         String expectedDomain = "http://dev-pg.com";
         Assert.assertEquals(expectedDomain, actualDomain);
+    }
 
+    @Test(expected = InvalidActiveProfileException.class)
+    public void getConfigValue_invalid_activeProfile() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "invalid");
+        // when
+        Map<String, String> configValue = AppConfig.getConfigValue("paymentGateway");
+        String actualPropertyPath = configValue.get("propertyPath");
 
+        // then
+        String expectedPropertyPath = "classpath:conf/dev-pg.properties";
+        Assert.assertEquals(expectedPropertyPath, actualPropertyPath);
     }
 }

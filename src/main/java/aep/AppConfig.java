@@ -1,5 +1,6 @@
 package aep;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -21,7 +22,6 @@ public class AppConfig {
 
         StringBuilder configStringBuilder = new StringBuilder();
         while ((line = configBufferReader.readLine()) != null) {
-
             configStringBuilder.append(line);
         }
         configStream.close();
@@ -30,6 +30,12 @@ public class AppConfig {
         JSONObject configJSONObject = JSONObject.fromObject(configStringBuilder.toString());
 
         JSONObject profileJSONObject = (JSONObject) configJSONObject.get("profile");
+        JSONArray validStageJSONArray = profileJSONObject.getJSONArray("validStage");
+
+        if (!validStageJSONArray.contains(activeProfile)) {
+            throw new InvalidActiveProfileException();
+        }
+
         JSONObject stageJSONObject = (JSONObject) profileJSONObject.get("stage");
         JSONObject devJSONObject = (JSONObject) stageJSONObject.get(activeProfile);
         JSONObject keyJSONObject = (JSONObject) devJSONObject.get(key);
