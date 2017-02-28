@@ -2,18 +2,17 @@ package aep;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by yooyoung-mo on 2017. 2. 10..
  */
 public class JsonAppConfigMap {
-    private final String json;
+    private final Map initialConfigMap;
     private Map configMap;
 
     public JsonAppConfigMap(String json) {
-        this.json = json;
-        this.configMap = parseJson(json);
+        this.initialConfigMap = parseJson(json);
+        this.configMap = new HashMap(initialConfigMap);
     }
 
     private Map parseJson(String json) {
@@ -25,25 +24,21 @@ public class JsonAppConfigMap {
         if(configMap != null) {
             this.configMap = (Map)this.configMap.get(key);
         }
-
         return this;
     }
 
     public Map getConfigMap() {
         if(configMap != null) {
-            Map<String, String> resultMap = new HashMap<String, String>();
-            Set<Map.Entry<String, String>> set = configMap.entrySet();
-            for(Map.Entry<String, String> o : set) {
-                resultMap.put(o.getKey(), o.getValue());
-            }
+            Map resultMap = new HashMap(configMap);
             initMap();
             return resultMap;
         } else {
+            initMap();
             return null;
         }
     }
 
     private void initMap() {
-        this.configMap = parseJson(json);
+        this.configMap = new HashMap(initialConfigMap);
     }
 }
