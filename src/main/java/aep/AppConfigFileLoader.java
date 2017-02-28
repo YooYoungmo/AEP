@@ -6,12 +6,16 @@ import java.io.*;
  * Created by yooyoung-mo on 2017. 1. 10..
  */
 public class AppConfigFileLoader {
-    private static final String CONFIG_ROOT_DEFAULT_FILE_PATH = "conf/app-config.json";
+    private static String CONFIG_ROOT_DEFAULT_FILE_PATH = "conf/app-config.json";
     private static volatile AppConfigFileLoader instance = null;
     private final String configText;
 
     private AppConfigFileLoader() throws IOException {
         configText = initConfigText();
+    }
+
+    public static void setConfigRootDefaultFilePath(String configRootDefaultFilePath) {
+        CONFIG_ROOT_DEFAULT_FILE_PATH = configRootDefaultFilePath;
     }
 
     private String initConfigText() throws IOException {
