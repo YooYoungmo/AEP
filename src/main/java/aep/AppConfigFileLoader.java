@@ -8,18 +8,26 @@ import java.io.*;
 public class AppConfigFileLoader {
     private static String CONFIG_ROOT_DEFAULT_FILE_PATH = "conf/app-config.json";
     private static volatile AppConfigFileLoader instance = null;
-    private final String configText;
+    private String configText;
 
     private AppConfigFileLoader() throws IOException {
-        configText = initConfigText();
+        initConfigText();
     }
 
-    public static void setConfigRootDefaultFilePath(String configRootDefaultFilePath) {
-        CONFIG_ROOT_DEFAULT_FILE_PATH = configRootDefaultFilePath;
+    public static AppConfigFileLoader getInstance() throws IOException {
+        if (instance == null) {
+            synchronized (AppConfigFileLoader.class) {
+                if (instance == null) {
+                    instance = new AppConfigFileLoader();
+                }
+            }
+        }
+        return instance;
     }
 
-    private String initConfigText() throws IOException {
-        String configText;InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_ROOT_DEFAULT_FILE_PATH);
+    private void initConfigText() throws IOException {
+        String configText;
+        InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_ROOT_DEFAULT_FILE_PATH);
 
         if(configStream == null) {
             throw new FileNotFoundException("파일을 찾을 수 없습니다 - path : " + CONFIG_ROOT_DEFAULT_FILE_PATH);
@@ -42,23 +50,12 @@ public class AppConfigFileLoader {
         }
 
         configText = configStringBuilder.toString();
-        return configText;
+
+        this.configText = configText;
     }
 
     public String getText() throws IOException {
         return configText;
-    }
-
-
-    public static AppConfigFileLoader getInstance() throws IOException {
-        if (instance == null) {
-            synchronized(AppConfigFileLoader.class) {
-                if (instance == null) {
-                    instance = new AppConfigFileLoader();
-                }
-            }
-        }
-        return instance;
     }
 
 }
