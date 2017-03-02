@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
  * Created by 유영모 on 2017-01-09.
  */
 public final class AppConfig {
