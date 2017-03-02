@@ -3,7 +3,7 @@ package aep;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -12,29 +12,13 @@ import java.util.Map;
 public class AppConfig {
     public static Map<String, String> getConfigValue(String key) throws IOException {
 
-        InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream("conf/app-config.json");
-        Closeable streamCloser = configStream;
-        StringBuilder configStringBuilder = new StringBuilder();
+        String appConfigText = AppConfigFileLoader.getText();
 
-        try {
-            BufferedReader configBufferReader = new BufferedReader(new InputStreamReader(configStream));
-            streamCloser = configBufferReader;
-
-            String line = "";
-
-            while ((line = configBufferReader.readLine()) != null) {
-                configStringBuilder.append(line);
-            }
-        } finally {
-            streamCloser.close();
-        }
-
-        String activeProfile = System.getProperty("app.env.profile.active");
-        JSONObject configJSONObject = JSONObject.fromObject(configStringBuilder.toString());
-
+        JSONObject configJSONObject = JSONObject.fromObject(appConfigText);
         JSONObject profileJSONObject = (JSONObject) configJSONObject.get("profile");
         JSONArray validStageJSONArray = profileJSONObject.getJSONArray("validStage");
 
+        String activeProfile = System.getProperty("app.env.profile.active");
         if (!validStageJSONArray.contains(activeProfile)) {
             throw new InvalidActiveProfileException();
         }
