@@ -8,15 +8,14 @@ import java.io.*;
 public class AppConfigFileLoader {
     private String CONFIG_ROOT_DEFAULT_FILE_PATH = "conf/app-config.json";
     private static volatile AppConfigFileLoader instance = null;
-    private final String configText;
+    private String configText;
 
     private AppConfigFileLoader() throws IOException {
-        configText = initConfigText();
+        initConfigText();
     }
 
-    private String initConfigText() throws IOException {
-        System.out.println("initConfigText");
-        String configText;InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_ROOT_DEFAULT_FILE_PATH);
+    private void initConfigText() throws IOException {
+        InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_ROOT_DEFAULT_FILE_PATH);
 
         if(configStream == null) {
             throw new FileNotFoundException("파일을 찾을 수 없습니다 - path : " + CONFIG_ROOT_DEFAULT_FILE_PATH);
@@ -39,7 +38,6 @@ public class AppConfigFileLoader {
         }
 
         configText = configStringBuilder.toString();
-        return configText;
     }
 
     public String getText() throws IOException {
