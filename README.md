@@ -12,7 +12,14 @@
   * app-config.json
 ```json
   {
-    "profile": {
+  "default" : {
+    "googleMaps" : {
+      "url" : "http://google.com/maps"
+    }
+  },
+  "profile": {
+    "validStage" : ["dev", "prod"],
+    "stage" : {
       "dev": {
         "paymentGateway": {
           "domain": "http://dev-pg.com",
@@ -23,13 +30,14 @@
         "paymentGateway": {
           "domain": "http://pg.com",
           "propertyPath": "classpath:conf/dev-pg.properties"
+        },
+        "googleMaps" : {
+          "url" : "http://googletest.com/maps"
         }
       }
-    },
-    "googleMaps" : {
-      "url" : "http://google.com/maps"
     }
   }
+}
 ```
 * Java Opt 으로 Profile 지정
   * -Dapp.env.profile.active = dev or prod
