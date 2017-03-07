@@ -5,17 +5,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * <a href="https://github.com/YooYoungmo/AEP">AEP Github README.md</a> 참조
+ * Utility 클래스의 형태로 상속하거나 new 키워드를 통해 생성하여 사용 않는다.
  *
- * Created by 유영모 on 2017-01-09.
+ * JSP(Java Server Page) 커스텀 태그 구현체는 {@link aep.tag.AppConfigTag} 참조
  */
 public final class AppConfig {
     private static final String CONFIG_PROFILE_ELEMENT = "profile";
     private static final String SYSTEM_PROPERTY_APP_ENV_PROFILE_ACTIVE = "app.env.profile.active";
     private static JsonAppConfigMap appConfigMap = null;
 
+    /**
+     * <pre>
+     * Utility 클래스의 형태(static 메소드의 집합)이기 때문에
+     * new 키워드를 사용을 방지 하기 위해 생성자를 private 선언
+     * </pre>
+     */
     private AppConfig() {
-
     }
+
+    /**
+     * <a href="https://github.com/YooYoungmo/AEP#사용법">Java 사용법</a>을 참조
+     *
+     * @param key
+     * @return
+     * @throws IOException
+     */
     public static Map getConfigValue(String key) throws IOException {
         loadResource();
         if(isActiveProfile()) {
