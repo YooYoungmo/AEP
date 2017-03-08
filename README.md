@@ -29,8 +29,9 @@
 
 ## 프로젝트 진행 원칙
 - Master branch는 Pair Programming 결과만 반영 한다.
-- 테스트 코드 먼저 작성 한다.
-- JUnit 테스트 케이스를 통과하지 못하는 코드는 Master branch에 반영하지 않는다.
+- 자동화 테스트 케이스 코드를 먼저 작성 한다.
+- 자동화 테스트 케이스를 통과하지 못하는 코드는 Master branch에 반영하지 않는다.
+- 각 이슈 별로 branch를 생성하며 이슈 해결 후 Master branch와 merge를 한다.
 
 ## 사용법
 ### 전제 조건
