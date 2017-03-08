@@ -24,9 +24,13 @@ public class AppConfig {
         }
 
         JSONObject stageJSONObject = (JSONObject) profileJSONObject.get("stage");
-        JSONObject devJSONObject = (JSONObject) stageJSONObject.get(activeProfile);
-        JSONObject keyJSONObject = (JSONObject) devJSONObject.get(key);
+        JSONObject configValuesJSONObject = (JSONObject) stageJSONObject.get(activeProfile);
+        JSONObject configValueJSONObject = (JSONObject) configValuesJSONObject.get(key);
 
-        return keyJSONObject;
+        if (configValueJSONObject == null) {
+            throw new NotFoundConfigValueException();
+        }
+
+        return configValueJSONObject;
     }
 }

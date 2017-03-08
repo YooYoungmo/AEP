@@ -73,4 +73,23 @@ public class AppConfigTest {
         String expectedPropertyPath = "classpath:conf/dev-pg.properties";
         Assert.assertEquals(expectedPropertyPath, actualPropertyPath);
     }
+
+    @Test(expected = NotFoundConfigValueException.class)
+    public void getConfigValue_invalid_key() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "prod");
+
+        // when
+        try {
+            Map<String, String> configValue = AppConfig.getConfigValue("invalidKey");
+            String actualPropertyPath = configValue.get("propertyPath");
+
+            // then
+            String expectedPropertyPath = "classpath:conf/prod-pg.properties";
+            Assert.assertEquals(expectedPropertyPath, actualPropertyPath);
+        } catch (RuntimeException e) {
+            System.out.print("runtimeException catch!!");
+            throw e;
+        }
+    }
 }
