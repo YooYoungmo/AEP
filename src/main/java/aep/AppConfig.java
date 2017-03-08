@@ -40,11 +40,11 @@ public final class AppConfig {
 
             Map resultMap = getConfigValueInActiveProfile(activeProfile, key);
 
-            if(resultMap == null) {
+            if(resultMap.isEmpty()) {
                 resultMap = getConfigValueInDefault(key);
             }
 
-            if(resultMap == null) {
+            if(resultMap.isEmpty()) {
                 throw new IllegalArgumentException(key + "가 존재하지 않습니다.");
             }
 

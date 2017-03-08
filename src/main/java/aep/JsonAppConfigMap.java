@@ -1,5 +1,6 @@
 package aep;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class JsonAppConfigMap {
     }
 
     public Map getConfigMap() {
-        Map resultMap = null;
+        Map resultMap = Collections.emptyMap();
 
         if(configMap != null) {
             resultMap = new HashMap(configMap);
