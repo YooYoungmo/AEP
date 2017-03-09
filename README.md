@@ -1,6 +1,6 @@
 # AEP(Application Environment Profile)  
 
-## 목적
+## 배경
 응용소프트웨어(Application)를 개발 하다보면 많은 config값들을 필요로 한다.
 이 값들은 실행 환경(stage)에 따라 별도의 값을 가지는 경우가 많다.
 
