@@ -1,5 +1,8 @@
 package aep;
 
+import aep.exception.SystemPropertyInvalidValueException;
+import aep.exception.SystemPropertyNotFoundException;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +34,7 @@ public final class AppConfig {
      * @return
      * @throws IOException
      */
-    public static Map getConfigValue(String key) throws IOException {
+    public static Map getConfigValue(String key) {
         loadResource();
         if(isActiveProfile()) {
             final String activeProfile = getActiveProfile();
@@ -55,7 +58,7 @@ public final class AppConfig {
         }
     }
 
-    private synchronized static void loadResource() throws IOException {
+    private synchronized static void loadResource() {
         if(appConfigMap == null) {
             AppConfigFileLoader configFileLoader = AppConfigFileLoader.getInstance();
             String configText = configFileLoader.getText();

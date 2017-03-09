@@ -1,5 +1,7 @@
 package aep;
 
+import aep.exception.AEPException;
+
 import java.io.*;
 
 /**
@@ -24,8 +26,13 @@ public class AppConfigFileLoader {
      *
      * @throws IOException 정해진 경로(conf/app-config.json)에 파일을 찾을 수 없거나 오류가 발생하는 경우 발생
      */
-    private AppConfigFileLoader() throws IOException {
-        configText = initConfigText();
+    private AppConfigFileLoader() {
+        try {
+            configText = initConfigText();
+        }
+        catch(IOException e) {
+            throw new AEPException(e);
+        }
     }
 
     /**
@@ -39,6 +46,7 @@ public class AppConfigFileLoader {
         InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_ROOT_DEFAULT_FILE_PATH);
 
         if(configStream == null) {
+
             throw new FileNotFoundException("파일을 찾을 수 없습니다 - path : " + CONFIG_ROOT_DEFAULT_FILE_PATH);
         }
 
@@ -68,7 +76,7 @@ public class AppConfigFileLoader {
      * @return AppConfig 텍스트
      * @throws IOException
      */
-    public String getText() throws IOException {
+    public String getText() {
         return configText;
     }
 
@@ -78,7 +86,7 @@ public class AppConfigFileLoader {
      * @return {@link AppConfigFileLoader} 인스턴스
      * @throws IOException 정해진 경로(conf/app-config.json)에 파일을 찾을 수 없거나 오류가 발생하는 경우 발생
      */
-    public static AppConfigFileLoader getInstance() throws IOException {
+    public static AppConfigFileLoader getInstance() {
         if (instance == null) {
             synchronized(AppConfigFileLoader.class) {
                 if (instance == null) {
