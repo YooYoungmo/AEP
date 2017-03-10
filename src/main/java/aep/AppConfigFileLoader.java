@@ -17,7 +17,7 @@ import java.io.*;
  * @see <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singleton Pattern</a>
  */
 public class AppConfigFileLoader {
-    private static final String CONFIG_ROOT_DEFAULT_FILE_PATH = "conf/app-config.json";
+    private String CONFIG_ROOT_DEFAULT_FILE_PATH = "conf/app-config.json";
     private static volatile AppConfigFileLoader instance = null;
     private final String configText;
 
@@ -46,7 +46,6 @@ public class AppConfigFileLoader {
         InputStream configStream = AppConfig.class.getClassLoader().getResourceAsStream(CONFIG_ROOT_DEFAULT_FILE_PATH);
 
         if(configStream == null) {
-
             throw new FileNotFoundException("파일을 찾을 수 없습니다 - path : " + CONFIG_ROOT_DEFAULT_FILE_PATH);
         }
 
@@ -96,4 +95,5 @@ public class AppConfigFileLoader {
         }
         return instance;
     }
+
 }
