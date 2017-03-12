@@ -92,4 +92,18 @@ public class AppConfigTest {
             throw e;
         }
     }
+
+    @Test
+    public void getConfigValue_defaultConfigValue() throws IOException {
+        // given
+        System.setProperty("app.env.profile.active", "dev");
+
+        // when
+        Map<String, String> map = AppConfig.getConfigValue("googleMaps");
+        String actual = map.get("url");
+        String expected = "http://google.com/maps";
+
+        // then
+        Assert.assertEquals(expected, actual);
+    }
 }

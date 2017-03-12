@@ -28,6 +28,11 @@ public class AppConfig {
         JSONObject configValueJSONObject = (JSONObject) configValuesJSONObject.get(key);
 
         if (configValueJSONObject == null) {
+            JSONObject defaultJSONObject = (JSONObject) configJSONObject.get("default");
+            configValueJSONObject = (JSONObject) defaultJSONObject.get(key);
+        }
+
+        if (configValueJSONObject == null) {
             throw new NotFoundConfigValueException();
         }
 
