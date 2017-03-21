@@ -18,8 +18,9 @@ public class AppConfig {
         JSONObject profileJSONObject = (JSONObject) configJSONObject.get("profile");
         JSONArray validStageJSONArray = profileJSONObject.getJSONArray("validStage");
 
-        String activeProfile = System.getProperty("app.env.profile.active");
-        if (!validStageJSONArray.contains(activeProfile)) {
+        String activeProfile = getActiveProfile();
+
+        if (!validActiveProfile()) {
             throw new InvalidActiveProfileException();
         }
 
@@ -37,5 +38,22 @@ public class AppConfig {
         }
 
         return configValueJSONObject;
+    }
+
+    public static String getActiveProfile() {
+        return System.getProperty("app.env.profile.active");
+    }
+
+    public static boolean validActiveProfile() throws IOException {
+
+        String appConfigText = AppConfigFileLoader.getText();
+
+        JSONObject configJSONObject = JSONObject.fromObject(appConfigText);
+        JSONObject profileJSONObject = (JSONObject) configJSONObject.get("profile");
+        JSONArray validStageJSONArray = profileJSONObject.getJSONArray("validStage");
+
+        String activeProfile = getActiveProfile();
+
+        return validStageJSONArray.contains(activeProfile);
     }
 }
