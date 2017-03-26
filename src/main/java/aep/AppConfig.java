@@ -1,20 +1,23 @@
 package aep;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Map;
 
 /**
- * Created by 유영모 on 2017-01-09.
+ * Created by langve on 2017-02-22.
  */
 public class AppConfig {
+    private static JSONObject appConfigJSONObject;
+
     public static Map<String, String> getConfigValue(String key) throws IOException {
 
         String appConfigText = AppConfigFileLoader.getText();
 
-        JSONObject configJSONObject = JSONObject.fromObject(appConfigText);
+        JSONObject configJSONObject = parseJSONObject(appConfigText);
         JSONObject profileJSONObject = (JSONObject) configJSONObject.get("profile");
         JSONArray validStageJSONArray = profileJSONObject.getJSONArray("validStage");
 
@@ -48,12 +51,23 @@ public class AppConfig {
 
         String appConfigText = AppConfigFileLoader.getText();
 
-        JSONObject configJSONObject = JSONObject.fromObject(appConfigText);
+        JSONObject configJSONObject = parseJSONObject(appConfigText);
         JSONObject profileJSONObject = (JSONObject) configJSONObject.get("profile");
         JSONArray validStageJSONArray = profileJSONObject.getJSONArray("validStage");
 
         String activeProfile = getActiveProfile();
 
         return validStageJSONArray.contains(activeProfile);
+    }
+
+    public static JSONObject parseJSONObject(String appConfigText) {
+        try {
+            if (appConfigJSONObject == null)
+                appConfigJSONObject = JSONObject.fromObject(appConfigText);
+        } catch (JSONException jsonException) {
+            throw new WrongFormatAppConfigTextException();
+        }
+
+        return appConfigJSONObject;
     }
 }

@@ -1,5 +1,6 @@
 package aep;
 
+import net.sf.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -144,5 +145,31 @@ public class AppConfigTest {
 
         // then
         Assert.assertEquals(expected, validAtiveProfile);
+    }
+
+    @Test(expected = WrongFormatAppConfigTextException.class)
+    public void parseJSONObject_wrongFormatText() {
+        // given
+        String appConfigText = "wrongText";
+
+        // when
+        JSONObject jsonObject = AppConfig.parseJSONObject(appConfigText);
+
+        // then
+
+    }
+
+    @Test
+    public void parseJSONObject_sameReference() throws IOException {
+        // given
+        String appConfigText = AppConfigFileLoader.getText();
+
+        // when
+        JSONObject jsonObjectFirst = AppConfig.parseJSONObject(appConfigText);
+
+        JSONObject jsonObjectSecond = AppConfig.parseJSONObject(appConfigText);
+
+        // then
+        Assert.assertSame(jsonObjectFirst, jsonObjectSecond);
     }
 }
