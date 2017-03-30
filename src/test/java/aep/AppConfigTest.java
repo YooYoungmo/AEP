@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Created by 유영모 on 2017-01-09.
+ * Created by langve on 2017-01-09.
  */
 public class AppConfigTest {
     @Test
