@@ -13,7 +13,7 @@ import java.util.Map;
 public class AppConfigTest {
     @Test
     public void getConfigValue_dev_activeProfile() throws IOException {
-        // given
+        //  given
         System.setProperty("app.env.profile.active", "dev");
 
         // when
